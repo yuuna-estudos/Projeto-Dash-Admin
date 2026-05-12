@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   PieChart,
   Pie,
   Cell,
   ResponsiveContainer,
   Tooltip,
-} from 'recharts'
-import { useFetch } from '../../hooks/useFetch'
+} from 'recharts';
+import { useFetch } from '../../hooks/useFetch';
 
 const colors = [
   '#3b82f6',
@@ -46,7 +46,7 @@ function SalesChart() {
 
       setChartData(formattedData)
     }
-  }, [data])
+  }, [data]);
 
   if (loading) {
     return (
@@ -54,7 +54,7 @@ function SalesChart() {
     <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
   </div>
     )
-  }
+  };
 
   if (error) return <p className='text-red-500 p-6'>Erro: {error}</p>
 

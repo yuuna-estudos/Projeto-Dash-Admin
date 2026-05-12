@@ -5,9 +5,9 @@ import {
   Users,
   Eye,
   ArrowDownRight,
-} from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { useFetch } from '../../hooks/useFetch'
+} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useFetch } from '../../hooks/useFetch';
 
 function StatsGrid() {
   const [stats, setStats] = useState([]);
@@ -16,14 +16,14 @@ function StatsGrid() {
   const { data: usersData, loading: usersLoading } = useFetch ('https://dummyjson.com/users');
   const { data: cartsData, loading: cartsLoading } = useFetch('https://dummyjson.com/carts');
 
-  const isLoading = productsLoading || usersLoading || cartsLoading
+  const isLoading = productsLoading || usersLoading || cartsLoading;
 
 useEffect(() => {
   if (productsData && usersData && cartsData) {
     const totalRevenue = productsData.products.reduce(
       (sum, product) => sum + product.price,
       0
-    )
+    );
 
     const generatedStats = [
        {
@@ -66,7 +66,7 @@ useEffect(() => {
             bgColor: 'bg-orange-50 dark:bg-orange-900/20',
             textColor: 'text-orange-600 dark:text-orange-400',
           },
-    ]
+    ];
 
     setStats(generatedStats)
   }
@@ -79,7 +79,7 @@ useEffect(() => {
     <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
   </div>
     )
-  }
+  };
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 '>

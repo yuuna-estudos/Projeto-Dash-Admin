@@ -3,6 +3,7 @@ import Sidebar from "./components/Layout/Sidebar";
 import Header from "./components/Layout/Header";
 import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard/Dashboard";
+import { useDebounce } from "./hooks/useDebounce";
 
 function App() {
 
@@ -10,6 +11,8 @@ function App() {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState('');
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   // 1. Criamos o estado do tema (iniciando como falso/claro)
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -43,7 +46,7 @@ function App() {
 
           <main className="flex-1 overflow-y-auto bg-transparent -mt-16 pt-16">
             <div className="p-6 space-y-6">
-              {currentPage === "dashboard" && <Dashboard searchTerm={searchTerm} />}
+              {currentPage === "dashboard" && <Dashboard searchTerm={debouncedSearchTerm} />}
             </div>
           </main>
         </div>

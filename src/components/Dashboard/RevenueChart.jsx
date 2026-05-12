@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -7,8 +7,8 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
-} from 'recharts'
-import { useFetch } from '../../hooks/useFetch'
+} from 'recharts';
+import { useFetch } from '../../hooks/useFetch';
 
 function RevnueChart() {
   const { data, loading, error } = useFetch("https://dummyjson.com/products");

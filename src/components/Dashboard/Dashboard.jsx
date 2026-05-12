@@ -1,8 +1,8 @@
-import React from 'react'
-import StatsGrid from './StatsGrid'
-import ChartSection from './ChartSection'
-import TableSection from './TableSection'
-import ActivityFeed from './ActivityFeed'
+import React from 'react';
+import StatsGrid from './StatsGrid';
+import ChartSection from './ChartSection';
+import TableSection from './TableSection';
+import ActivityFeed from './ActivityFeed';
 
 function Dashboard({ searchTerm }) {
   return (

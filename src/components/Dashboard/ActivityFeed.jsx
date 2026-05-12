@@ -1,13 +1,13 @@
 import {
   Clock,
   User,
-} from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { useFetch } from '../../hooks/useFetch'
+} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useFetch } from '../../hooks/useFetch';
 
 function ActivityFeed() {
-  const { data, loading, error } = useFetch('https://dummyjson.com/users')
-  const [activities, setActivities] = useState([])
+  const { data, loading, error } = useFetch('https://dummyjson.com/users');
+  const [activities, setActivities] = useState([]);
 
  useEffect(() => {
   if (data && data.users) {
