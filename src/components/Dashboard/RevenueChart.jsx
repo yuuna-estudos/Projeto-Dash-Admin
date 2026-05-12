@@ -8,59 +8,51 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts'
+import { useFetch } from '../../hooks/useFetch'
 
 function RevnueChart() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { data, loading, error } = useFetch("https://dummyjson.com/products");
+  const [chartData, setChartData ] = useState([]);
 
   useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const response = await fetch('https://dummyjson.com/products')
+    if(data && data.products) {
+      const grouped = {}
 
-        if (!response.ok) {
-          throw new Error('Erro ao buscar dados do gráfico')
+      data.products.forEach((product) => {
+        const category = product.category
+
+        if (!grouped[category]) {
+          grouped[category] = {
+            month: category,
+            revenue: 0,
+            expenses: 0,
+          }
         }
 
-        const result = await response.json()
+        grouped[category].revenue += product.price
+        grouped[category].expenses += product.stock * 10
+      })
 
-        const grouped = {}
-
-        result.products.forEach((product) => {
-          const category = product.category
-
-          if (!grouped[category]) {
-            grouped[category] = {
-              month: category,
-              revenue: 0,
-              expenses: 0,
-            }
-          }
-
-          grouped[category].revenue += product.price
-          grouped[category].expenses += product.stock * 10
-        })
-
-        const chartData = Object.values(grouped).slice(0, 8)
-
-        setData(chartData)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
+      const formattedData = Object.values(grouped).slice(0, 8)
+      setChartData(formattedData)
     }
-
-    fetchChartData()
-  }, [])
+  }, [data]);
 
   if (loading) {
     return (
-      <div className="bg-white/80 dark:bg-slate-900/80 rounded-2xl p-6">
-        <p className="text-slate-500">Loading chart...</p>
+     <div className="animate-pulse flex space-x-4 p-4">
+        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+     </div>
+    )
+  };
+
+  if (error) {
+    return (
+      <div className='bg-white/80 dark:bg-slate-900/80 rounded-2xl p-6'>
+        <p className='text-red-500'>Error: {error}</p>
       </div>
     )
-  }
+  };
 
   return (
     <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-b-2xl border border-transparent shadow-md shadow-slate-300/40 dark:shadow-none dark:border-slate-700/50 p-6'>
@@ -77,7 +69,7 @@ function RevnueChart() {
 
       <div className='h-80'>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
+          <BarChart data={chartData}>
             <CartesianGrid
               strokeDasharray="3 3"
               stroke="#e2e8f0"
@@ -99,7 +91,15 @@ function RevnueChart() {
               axisLine={false}
             />
 
-            <Tooltip />
+            <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(30, 41, 59, 0.9)',
+              borderColor: 'rgba(51, 65, 65, 0.5)',
+              color: '#fff',
+              borderRadius: '8px',
+            }}
+            itemStyle={{ color: '#e2e8f0'}}
+            />
 
             <Bar
               dataKey="revenue"

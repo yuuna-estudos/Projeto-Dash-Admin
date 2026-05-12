@@ -3,47 +3,29 @@ import {
   User,
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { useFetch } from '../../hooks/useFetch'
 
 function ActivityFeed() {
+  const { data, loading, error } = useFetch('https://dummyjson.com/users')
   const [activities, setActivities] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
-  useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        setLoading(true)
+ useEffect(() => {
+  if (data && data.users) {
+    const generatedActivities = data.users 
+    .slice(0, 5)
+    .map((user, index) => ({
+      id: user.id,
+      icon: User,
+      title: 'New user registered',
+      description: `${user.firstName} ${user.lastName} created an account`,
+      time: `${index + 1} hour${index === 0 ? '' : 's'} ago`,
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+    }))
 
-        const response = await fetch('https://dummyjson.com/users')
-
-        if (!response.ok) {
-          throw new Error('Erro ao buscar atividades')
-        }
-
-        const data = await response.json()
-
-        const generatedActivities = data.users
-          .slice(0, 5)
-          .map((user, index) => ({
-            id: user.id,
-            icon: User,
-            title: 'New user registered',
-            description: `${user.firstName} ${user.lastName} created an account`,
-            time: `${index + 1} hour${index === 0 ? '' : 's'} ago`,
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-100 dark:bg-blue-900/30',
-          }))
-
-        setActivities(generatedActivities)
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchActivities()
-  }, [])
+    setActivities(generatedActivities)
+  }
+ }, [data]);
 
   return (
     <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-md shadow-slate-300/40 dark:shadow-none dark:border dark:border-slate-700/50'>

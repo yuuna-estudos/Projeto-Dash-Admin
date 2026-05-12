@@ -7,30 +7,26 @@ import {
   ArrowDownRight,
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { useFetch } from '../../hooks/useFetch'
 
 function StatsGrid() {
-  const [stats, setStats] = useState([])
+  const [stats, setStats] = useState([]);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const [productsRes, usersRes, cartsRes] = await Promise.all([
-          fetch('https://dummyjson.com/products'),
-          fetch('https://dummyjson.com/users'),
-          fetch('https://dummyjson.com/carts'),
-        ])
+  const { data: productsData, loading: productsLoading } = useFetch('https://dummyjson.com/products');
+  const { data: usersData, loading: usersLoading } = useFetch ('https://dummyjson.com/users');
+  const { data: cartsData, loading: cartsLoading } = useFetch('https://dummyjson.com/carts');
 
-        const productsData = await productsRes.json()
-        const usersData = await usersRes.json()
-        const cartsData = await cartsRes.json()
+  const isLoading = productsLoading || usersLoading || cartsLoading
 
-        const totalRevenue = productsData.products.reduce(
-          (sum, product) => sum + product.price,
-          0
-        )
+useEffect(() => {
+  if (productsData && usersData && cartsData) {
+    const totalRevenue = productsData.products.reduce(
+      (sum, product) => sum + product.price,
+      0
+    )
 
-        const generatedStats = [
-          {
+    const generatedStats = [
+       {
             title: 'Total Revenue',
             value: `$${Math.round(totalRevenue).toLocaleString()}`,
             change: '+12.5%',
@@ -70,22 +66,18 @@ function StatsGrid() {
             bgColor: 'bg-orange-50 dark:bg-orange-900/20',
             textColor: 'text-orange-600 dark:text-orange-400',
           },
-        ]
+    ]
 
-        setStats(generatedStats)
-      } catch (error) {
-        console.error('Erro ao buscar estatísticas:', error)
-      }
-    }
+    setStats(generatedStats)
+  }
+}, [productsData, usersData, cartsData])
 
-    fetchStats()
-  }, [])
 
-  if (stats.length === 0) {
+  if (isLoading || stats.length === 0) {
     return (
-      <div className="text-slate-500 dark:text-slate-400">
-        Loading statistics...
-      </div>
+      <div className="animate-pulse flex space-x-4 p-4">
+    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+  </div>
     )
   }
 

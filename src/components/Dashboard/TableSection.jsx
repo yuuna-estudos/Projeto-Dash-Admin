@@ -1,69 +1,37 @@
-import { MoreHorizontal, TrendingDown, TrendingUp, Users } from 'lucide-react'
+import { MoreHorizontal, TrendingDown, TrendingUp, Users, SearchX } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
+import { useFetch } from '../../hooks/useFetch';
 
 
 function TableSection({searchTerm}) {
+  const { data: productsData, loading: productsLoading, error: productsError} = useFetch("https://dummyjson.com/products");
+  const { data: cartsData, loading: cartsLoading, error: cartsError } = useFetch("https://dummyjson.com/carts");
   
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [orders, setOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
   
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true)
-  
-        const response = await fetch("https://dummyjson.com/products")
-  
-        if (!response.ok) {
-          throw new Error("Erro ao buscar produtos")
-        }
-  
-        const data = await response.json()
-  
-        setProducts(data.products.slice(0, 4))
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-  
-    fetchProducts()
-  }, []);
+useEffect(() => {
+  if (productsData && productsData.products) {
+    setProducts(productsData.products.slice(0, 4));
+  }
+}, [productsData]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch("https://dummyjson.com/carts")
-
-        if (!response.ok) {
-          throw new Error("Erro ao buscar pedidos")
-        }
-
-        const data = await response.json()
-
-        const formattedOrders = data.carts.slice(0, 10).map((cart) => ({
-          id: `#${cart.id}`,
-          customer: `Customer ${cart.userId}`,
-          product: cart.products[0]?.title || "Unknown Product",
-          amount: `${cart.total}`,
-          status: ["completed", "pending", "cancelled"][
-            Math.floor(Math.random() * 3)
-          ],
-          date: "2026-05-11",
-        }))
-
-        setOrders(formattedOrders)
-      } catch (error) {
-        console.error("Erro ao buscar pedidos:", error)
-      }
-    }
-
-    fetchOrders()
-  }, []);
+useEffect(() => {
+  if (cartsData && cartsData.carts) {
+    const formattedOrders = cartsData.carts.slice(0, 10).map((cart) => ({
+      id: `${cart.id}`,
+      customer: `Customer ${cart.userId}`,
+      product: cart.products[0]?.title || "Unknown Product",
+      amount: `${cart.total}`,
+      status: ["completed", "pending", "cancelled"][
+        Math.floor(Math.random() * 3)
+      ],
+      date: "2026-05-11",
+    }))
+    setOrders(formattedOrders)
+  }
+}, [cartsData]);
 
 
     const getStatusColor = (status) => {
@@ -151,7 +119,10 @@ function TableSection({searchTerm}) {
                         ) : (
                           <tr>
                             <td colSpan="7" className="p-12 text-center text-slate-500">
-                              No orders found matching your criteria.
+                              <div className='flex items-center justify-center gap-2'>
+                                <SearchX className='w-4 h-4'/>
+                                <span>No orders found matching your criteria.</span>
+                              </div>
                             </td>
                           </tr>
                         )}
@@ -177,15 +148,15 @@ function TableSection({searchTerm}) {
 
             {/* Dynamic Data */}
             <div className='p-6 space-y-4'>
-              {loading && (
-                <p className='text-slate-500 dark:text-slate-400'>
-                  Loading products...
-                </p>
+              {productsLoading && (
+                <div className="animate-pulse flex space-x-4 p-4">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                </div>
               )}
-              {error && (
+              {productsError && (
                 <p className='text-red-500'>Error: {error}</p>
               )}  
-                {!loading && !error &&
+                {!productsLoading && !productsError &&
                 products.map((product)=>{
                     return <div key={product.id} className='flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors'>
                 <div className='flex-1'>
