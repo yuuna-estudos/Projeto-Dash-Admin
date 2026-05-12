@@ -1,4 +1,4 @@
-import { Zap, LayoutDashboard, BarChart3, Users, ShoppingBag, Package, CreditCard, MessageSquare, Calendar, Settings, ChevronDown } from 'lucide-react'
+import { Zap, LayoutDashboard, BarChart3, Users, ShoppingBag, Package, CreditCard, MessageSquare, Calendar, Settings, ChevronDown, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 const menuItems = [
@@ -68,7 +68,7 @@ const menuItems = [
   label: "Settings",
 },
 ]
-function Sidebar({collapsed, onToggle, currentPage, onPageChange}) {
+function Sidebar({collapsed, isMobileOpen, setIsMobileOpen, currentPage, onPageChange}) {
   const [expandedItems, setExpandedItems] = useState(new Set(["analytics"]));
 
   const toggleExpanded = (itemid)=>{
@@ -83,7 +83,13 @@ function Sidebar({collapsed, onToggle, currentPage, onPageChange}) {
     setExpandedItems(newExpanded);
   }
   return (
-    <div className={`${collapsed ? "w-20" : "w-72"} transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-300/60 dark:border-slate-700/50 flex flex-col relative z-10`}>
+    <div className={`
+    fixed inset-y-0 left-0 z-50 flex flex-col transform transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-300/60 dark:border-slate-700/50
+      
+    w-72 ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
+
+    md:relative md:translate-x-0 ${collapsed ? "md:w-20" : "md:w-72"}
+      `}>
       {/* Logo */}
       <div className='p-6 border-b border-slate-300/60 dark:border-slate-700/50'>
         <div className='flex items-center space-x-3'>
@@ -92,11 +98,19 @@ function Sidebar({collapsed, onToggle, currentPage, onPageChange}) {
           </div>
 
           {/* Conditional Rendering*/}
-          {!collapsed && (<div className='text-xl font-bold text-slate-800 dark:text-white'>
+          <div className={`text-xl font-bold text-slate-800 dark:text-white transition-opacity ${collapsed ? 'md:hidden' : ''}`}>
             <h1>Nexus</h1>
             <p className='text-xs text-slate-500 dark:text-slate-400'>Admin Panel</p>
-          </div>)}
+          </div>
         </div>
+        
+        {/* Botão X para fechar (Exclusivo do mobile) */}
+        <button 
+          className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          onClick={() => setIsMobileOpen(false)}
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Navigation I will display Dynamic Menus */}

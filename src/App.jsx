@@ -9,6 +9,7 @@ function App() {
 
 
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -31,16 +32,35 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleToggleSidebar = () => {
+    if(window.innerWidth >= 768) {
+      setSideBarCollapsed(!sideBarCollapsed);
+    } else {
+      setIsMobileOpen(!isMobileOpen);
+    }
+  };
+
   return (
     <div className='min-h-screen bg-gradient-to-r from-indigo-100 via-slate-100 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-all duration-500'>
-      <div className='flex h-screen overflow-hidden'>
+      <div className='flex h-screen overflow-hidden relative'>
+
+        {isMobileOpen && (
+          <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          onClick={() => setIsMobileOpen(false)}
+          />
+        )}
         <Sidebar collapsed = {sideBarCollapsed} onToggle = {()=> setSideBarCollapsed(!sideBarCollapsed)}
+        isMobileOpen={isMobileOpen}
+        setIsMobileOpen={setIsMobileOpen}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} sideBarCollapsed={sideBarCollapsed}
-          onToggleSidebar = {()=> setSideBarCollapsed(!sideBarCollapsed)} isDarkMode={isDarkMode}
+          <Header searchTerm={searchTerm} 
+          setSearchTerm={setSearchTerm} 
+          sideBarCollapsed={sideBarCollapsed}
+          onToggleSidebar = {handleToggleSidebar} 
+          isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
           />
 
