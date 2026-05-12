@@ -3,7 +3,24 @@ import React from 'react'
 
 
 function Header( {sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, searchTerm, setSearchTerm}) {
-  return  <div className='sticky top-0 z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-slate-300/60 dark:border-slate-700/50 px-6 py-4'>
+  const SearchBar = () => (
+    <div className='relative w-full'>
+      <Search className='w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400'/>
+      <input 
+        type="text" 
+        placeholder='Search Anything' 
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} 
+        // Corrigido: 'pr-10' garante que o texto não fique por baixo do ícone de filtro!
+        className='w-full pl-10 pr-10 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700 rounded-xl text-slate-800 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all' 
+      />
+      <button className='absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'>
+        <Filter className='w-4 h-4' />
+      </button>
+    </div>
+  );
+
+  return  <div className='sticky top-0 z-30 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-slate-300/60 dark:border-slate-700/50 px-6 py-4'>
     <div className='flex items-center justify-between'>
       {/* Left Section */}
       <div className='flex items-center space-x-4'>
@@ -17,16 +34,9 @@ function Header( {sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
         </div>
       </div>
       {/* Center */}
-      <div className='flex-1 max-w-md mx-8'>
-        <div className='relative'>
-          <Search className='w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400'/>
-          <input type="text" placeholder='Search Anything' value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} className='w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700 rounded-xl text-slate-800 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all' />
-          <button className='absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'>
-            <Filter />
-          </button>
+      <div className='hidden md:block flex-1 max-w-md mx-8'>
+          <SearchBar />
         </div>
-      </div>
       {/* Right */}
       <div className='flex items-center space-x-3'>
         {/* Quic Action */}
@@ -42,11 +52,11 @@ function Header( {sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
         {/* Notifications */}
         <button className='relative p-2.5 rounded-xl text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100 transition-colors'>
           <Bell className='w-5 h-5'/>
-          <span className='absolute -top-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center'>3</span>
+          <span className='absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] md:text-xs rounded-full flex items-center justify-center'>3</span>
         </button>
 
         {/* Setting */}
-        <button className='p-2.5 rounded-xl text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100 transition-colors'>
+        <button className='hidden sm:block p-2.5 rounded-xl text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100 transition-colors'>
           <Settings className='w-5 h-5'/>
         </button>
 
@@ -61,8 +71,12 @@ function Header( {sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
         </div>
       </div>
     </div>
+
+    <div className='mt-4 w-full md:hidden'>
+      <SearchBar />
+    </div>
   </div>
   
 }
 
-export default Header
+export default Header;

@@ -91,22 +91,23 @@ function Sidebar({collapsed, isMobileOpen, setIsMobileOpen, currentPage, onPageC
     md:relative md:translate-x-0 ${collapsed ? "md:w-20" : "md:w-72"}
       `}>
       {/* Logo */}
-      <div className='p-6 border-b border-slate-300/60 dark:border-slate-700/50'>
-        <div className='flex items-center space-x-3'>
-          <div className='w-10 h-10 bg-linear-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg'>
+      <div className='p-4 md:p-6 border-b border-slate-300/60 dark:border-slate-700/50 flex items-center justify-between'>
+        
+        <div className='flex items-center space-x-3 overflow-hidden'>
+          <div className='w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shrink-0'>
             <Zap className='w-6 h-6 text-white' />
           </div>
 
-          {/* Conditional Rendering*/}
+          {/* Oculta no desktop quando 'collapsed', mas mantém no mobile */}
           <div className={`text-xl font-bold text-slate-800 dark:text-white transition-opacity ${collapsed ? 'md:hidden' : ''}`}>
             <h1>Nexus</h1>
-            <p className='text-xs text-slate-500 dark:text-slate-400'>Admin Panel</p>
+            <p className='text-[10px] uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400'>Admin Panel</p>
           </div>
         </div>
         
-        {/* Botão X para fechar (Exclusivo do mobile) */}
+        {/* Botão X para fechar - Agora perfeitamente alinhado à direita! */}
         <button 
-          className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="md:hidden p-2 -mr-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
           onClick={() => setIsMobileOpen(false)}
         >
           <X className="w-5 h-5" />
