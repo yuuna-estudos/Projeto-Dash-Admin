@@ -14,7 +14,7 @@ const menuItems = [
   icon: BarChart3,
   label: "Analytics",
   submenu: [
-    { id: "overflow", label: "Overview"},
+    { id: "overview", label: "Overview"},
     { id: "reports", label: "Reports"},
     { id: "insights", label: "Insights"},
   ],
@@ -49,7 +49,7 @@ const menuItems = [
 {
   id: "transations",
   icon: CreditCard,
-  label: "Transations",
+  label: "Transactions",
 },
 {
   id: "messages",

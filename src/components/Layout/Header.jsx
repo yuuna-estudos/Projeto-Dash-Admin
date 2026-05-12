@@ -13,7 +13,7 @@ function Header( {sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
 
         <div className='hidden md:block'>
           <h1 className='text-2xl font-black text-slate-800 dark:text-white'>Dashboard</h1>
-          <p className='dark:text-white'>Welcome back, Alex! here's what's happening today</p>
+          <p className='dark:text-white'>Welcome back, Alex! Here's what's happening today</p>
         </div>
       </div>
       {/* Center */}

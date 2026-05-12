@@ -169,7 +169,7 @@ function TableSection({searchTerm}) {
                         <h3 className='text-lg font-bold text-slate-800 dark:text-white'>Top Products</h3>
                     </div>
                     <p className='text-sm text-slate-500 dark:text-slate-400'>
-                            best performing producats
+                            best performing products
                     </p>
                 </div>
                 <button className='text-blue-600 hover:text-blue-700 text-sm font-medium'>View All</button>
