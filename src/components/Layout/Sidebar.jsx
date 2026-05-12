@@ -1,5 +1,5 @@
-import { Zap, LayoutDashboard, BarChart3, Users, ShoppingBag, Package, CreditCard, MessageSquare, Calendar, Settings, ChevronDown, X } from 'lucide-react'
-import React, { useState } from 'react'
+import { Zap, LayoutDashboard, BarChart3, Users, ShoppingBag, Package, CreditCard, MessageSquare, Calendar, Settings, ChevronDown, X } from 'lucide-react';
+import React, { useState } from 'react';
 
 const menuItems = [
 {
@@ -91,8 +91,13 @@ function Sidebar({collapsed, isMobileOpen, setIsMobileOpen, currentPage, onPageC
     md:relative md:translate-x-0 ${collapsed ? "md:w-20" : "md:w-72"}
       `}>
       {/* Logo */}
-      <div className='p-4 md:p-6 border-b border-slate-300/60 dark:border-slate-700/50 flex items-center justify-between'>
-        
+      <div 
+        className={`border-b border-slate-300/60 dark:border-slate-700/50 flex items-center transition-all ${
+          collapsed 
+            ? 'p-4 justify-center' // Quando encolhido: menos padding e centralizado
+            : 'p-4 md:p-6 justify-between' // Quando expandido: padding normal e espaçado
+        }`}
+      >
         <div className='flex items-center space-x-3 overflow-hidden'>
           <div className='w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shrink-0'>
             <Zap className='w-6 h-6 text-white' />
@@ -105,7 +110,7 @@ function Sidebar({collapsed, isMobileOpen, setIsMobileOpen, currentPage, onPageC
           </div>
         </div>
         
-        {/* Botão X para fechar - Agora perfeitamente alinhado à direita! */}
+        {/* Botão X para fechar - Visível apenas no mobile */}
         <button 
           className="md:hidden p-2 -mr-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
           onClick={() => setIsMobileOpen(false)}
