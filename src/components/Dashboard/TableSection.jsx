@@ -62,13 +62,13 @@ useEffect(() => {
         { /* Recent Order */}
         <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-b-2xl shadow-md shadow-slate-300/40 dark:shadow-none dark:border dark:border-slate-700/50 overflow-hidden'> 
             <div className='p-6 border-b border-slate-300/60 dark:border-slate-700/50'>
-            <div className='flex items-center justify-between'>
-            <div>
+            <div className='flex flex-col md:flex-row md:items-center justify-between gap-4'>
+            <div className='md:flex-1'>
                 <h3 className='text-lg font-bold text-slate-800 dark:text-white'>Recent Orders</h3>
                 <p className='text-sm text-slate-500 dark:text-slate-400'>{searchTerm ? `Results for "${searchTerm}"` : 'Latest customer orders'}</p>
             </div>
             {/* Botões de filtro por status */}
-            <div className='flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg'>
+            <div className='flex items-center overflow-x-auto bg-slate-100 dark:bg-slate-800 p-1 rounded-lg w-full md:w-auto shrink-0 custom-scrollbar'>
                 {['all', 'completed', 'pending', 'cancelled'].map((status)=>(
 
                 <button key={status}
@@ -79,55 +79,65 @@ useEffect(() => {
                 }`}>
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                 </button>
-                )
-                )}
+                ))}
+              </div>
+
+              <div className='md:flex-1 md:text-right'>
+                <button className='text-blue-600 hover:text-blue-700 text-sm font-medium '>View All</button>
             </div>
-            <button className='text-blue-600 hover:text-blue-700 text-sm font-medium'>View All</button>
+            
             </div>
             </div>
 
             {/* Table */}
             <div className='overflow-x-auto'>
-                <table className='w-full'>
+                <table className='w-full text-left border-collapse'>
                     <thead>
                         <tr>
-                            <th className='text-left p-4 text-sm font-semibold text-slate-600'>Order ID</th>
-                            <th className='text-left p-4 text-sm font-semibold text-slate-600'>Product</th>
-                            <th className='text-left p-4 text-sm font-semibold text-slate-600'>Amount</th>
-                            <th className='text-left p-4 text-sm font-semibold text-slate-600'>Status</th>
-                            <th className='text-left p-4 text-sm font-semibold text-slate-600'>Date</th>
+                            <th className='p-4 text-sm font-semibold text-slate-600 whitespace-nowrap'>Order ID</th>
+                            <th className='p-4 text-sm font-semibold text-slate-600'>Product</th>
+                            {/* Oculto no mobile, aparece a partir de tablets (md) */}
+                            <th className='hidden md:table-cell p-4 text-sm font-semibold text-slate-600'>Amount</th>
+                            <th className='p-4 text-sm font-semibold text-slate-600'>Status</th>
+                            {/* Oculto no celular minúsculo, aparece a partir do tamanho 'sm' */}
+                            <th className='hidden sm:table-cell p-4 text-sm font-semibold text-slate-600'>Date</th>
                             <th className='p-4'></th>
                         </tr>
-                        </thead>
-                        <tbody>
-                            {filteredOrders.length > 0 ? (
-                          filteredOrders.map((order) => (
-                            <tr key={order.id} className='border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors'>
-                                <td className='p-4 text-sm font-medium text-blue-600'>{order.id}</td>
-                                <td className='p-4 text-sm text-slate-800 dark:text-white'>{order.customer}</td>
-                                <td className='p-4 text-sm text-slate-800 dark:text-white'>{order.product}</td>
-                                <td className='p-4 text-sm text-slate-800 dark:text-white'>{order.amount}</td>
-                                <td className='p-4'>
-                                    <span className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full ${getStatusColor(order.status)}`}>
-                                      {order.status}
-                                    </span>
-                                </td>
-                                <td className='p-4 text-sm text-slate-500 dark:text-slate-400'>{order.date}</td>
-                                <td className='p-4 text-right'><MoreHorizontal className='w-4 h-4 text-slate-400 cursor-pointer' /></td>
-                            </tr>
-                          ))
+                    </thead>
+                    <tbody>
+                        {filteredOrders.length > 0 ? (
+                            filteredOrders.map((order) => (
+                                <tr key={order.id} className='border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors'>
+                                    <td className='p-4 text-sm font-medium text-blue-600 whitespace-nowrap'>{order.id}</td>
+                                    
+                                    {/* Truncamos o texto do produto se for muito grande no mobile */}
+                                    <td className='p-4 text-sm text-slate-800 dark:text-white max-w-[120px] sm:max-w-none truncate' title={order.product}>
+                                        {order.product}
+                                    </td>
+                                    
+                                    <td className='hidden md:table-cell p-4 text-sm text-slate-800 dark:text-white font-medium'>{order.amount}</td>
+                                    
+                                    <td className='p-4'>
+                                        <span className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full whitespace-nowrap ${getStatusColor(order.status)}`}>
+                                            {order.status}
+                                        </span>
+                                    </td>
+                                    
+                                    <td className='hidden sm:table-cell p-4 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap'>{order.date}</td>
+                                    
+                                    <td className='p-4 text-right'>
+                                        <MoreHorizontal className='w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600' />
+                                    </td>
+                                </tr>
+                            ))
                         ) : (
-                          <tr>
-                            <td colSpan="7" className="p-12 text-center text-slate-500">
-                              <div className='flex items-center justify-center gap-2'>
-                                <SearchX className='w-4 h-4'/>
-                                <span>No orders found matching your criteria.</span>
-                              </div>
-                            </td>
-                          </tr>
+                            <tr>
+                                <td colSpan="6" className="p-12 text-center text-slate-500">
+                                    No orders found matching your criteria.
+                                </td>
+                            </tr>
                         )}
-                        </tbody>
-                    
+                    </tbody>
                 </table>
             </div>
         </div>
