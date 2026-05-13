@@ -59,7 +59,7 @@ function SalesChart() {
   if (error) return <p className='text-red-500 p-6'>Erro: {error}</p>
 
   return (
-    <div className='bg-white dark:bg-slate-900 backdrop-blur-xl rounded-b-2xl p-6 border border-transparent shadow-md shadow-slate-300/40 dark:shadow-none dark:border-slate-700/50'>
+    <div className='bg-white dark:bg-slate-900 backdrop-blur-xl rounded-2xl p-6 border border-transparent shadow-md shadow-slate-300/40 dark:shadow-none dark:border-slate-700/50'>
       <div className='mb-6'>
         <h3 className='text-lg font-bold text-slate-800 dark:text-white'>
           Sales by Category

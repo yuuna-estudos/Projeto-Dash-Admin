@@ -55,7 +55,7 @@ function RevnueChart() {
   };
 
   return (
-    <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-b-2xl border border-transparent shadow-md shadow-slate-300/40 dark:shadow-none dark:border-slate-700/50 p-6'>
+    <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-transparent shadow-md shadow-slate-300/40 dark:shadow-none dark:border-slate-700/50 p-6'>
       <div className='flex items-center justify-between mb-6'>
         <div>
           <h3 className='text-xl font-bold text-slate-800 dark:text-white'>
