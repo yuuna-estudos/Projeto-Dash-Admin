@@ -17,3 +17,11 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-slate-300 dark:bg-slate-600 rounded-full;
 }
+
+.recharts-wrapper *:focus-visible {
+  outline: 2px solid #3b82f6 !important;
+}
+
+.recharts-wrapper {
+  -webkit-tap-highlight-color: transparent;
+}

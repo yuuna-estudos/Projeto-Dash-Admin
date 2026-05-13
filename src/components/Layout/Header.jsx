@@ -200,11 +200,12 @@ function Header({ sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
       </div>
 
       <div 
-        className={`w-full md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isMobileSearchOpen ? 'max-h-24 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'
+        className={`w-full md:hidden transition-all duration-300 ease-in-out relative ${
+          isMobileSearchOpen 
+            ? 'max-h-[600px] opacity-100 mt-4 overflow-visible z-50' 
+            : 'max-h-0 opacity-0 mt-0 overflow-hidden'
         }`}
       >
-        {/* CORREÇÃO: Usando a variável com as chaves {} */}
         {searchBarContent}
       </div>
 
