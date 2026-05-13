@@ -4,7 +4,7 @@ import ChartSection from './ChartSection';
 import TableSection from './TableSection';
 import ActivityFeed from './ActivityFeed';
 
-function Dashboard({ searchTerm }) {
+function Dashboard() {
   return (
     <div className='space-y-6'>
         {/* Stats Grid */}
@@ -15,7 +15,7 @@ function Dashboard({ searchTerm }) {
 
         <div className='grid grid-cols-1 xl:grid-cols-3 gap-6'>
             <div className='xl:col-span-2'>
-                <TableSection searchTerm={searchTerm} />
+                <TableSection />
             </div>
             <div>
                 <ActivityFeed />

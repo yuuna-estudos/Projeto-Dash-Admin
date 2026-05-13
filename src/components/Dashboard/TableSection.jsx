@@ -1,9 +1,9 @@
-import { MoreHorizontal, TrendingDown, TrendingUp, Users, SearchX } from 'lucide-react'
+import { MoreHorizontal, TrendingDown, TrendingUp, Users, } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import { useFetch } from '../../hooks/useFetch';
 
 
-function TableSection({searchTerm}) {
+function TableSection() {
   const { data: productsData, loading: productsLoading, error: productsError} = useFetch("https://dummyjson.com/products");
   const { data: cartsData, loading: cartsLoading, error: cartsError } = useFetch("https://dummyjson.com/carts");
   
@@ -48,15 +48,9 @@ useEffect(() => {
 }
 
     const filteredOrders = orders.filter(order => {
-        const matchesSearch = 
-            order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.product.toLowerCase() .includes(searchTerm.toLowerCase()) ||
-            order.id.includes(searchTerm);
-        
-        const matchesStatus = statusFilter === "all" || order.status === statusFilter;
+    return statusFilter === "all" || order.status === statusFilter;
+  });
 
-        return matchesSearch && matchesStatus;
-    });
   return (
     <div className='space-y-6'>
         { /* Recent Order */}
@@ -65,14 +59,14 @@ useEffect(() => {
             <div className='flex flex-col md:flex-row md:items-center justify-between gap-4'>
             <div className='md:flex-1'>
                 <h3 className='text-lg font-bold text-slate-800 dark:text-white'>Recent Orders</h3>
-                <p className='text-sm text-slate-500 dark:text-slate-400'>{searchTerm ? `Results for "${searchTerm}"` : 'Latest customer orders'}</p>
+                <p className='text-sm text-slate-500 dark:text-slate-400'>Latest customer orders</p>
             </div>
             {/* Botões de filtro por status */}
             <div className='flex items-center overflow-x-auto bg-slate-100 dark:bg-slate-800 p-1 rounded-lg w-full md:w-auto shrink-0 custom-scrollbar'>
                 {['all', 'completed', 'pending', 'cancelled'].map((status)=>(
-
-                <button key={status}
-                onClick={() => setStatusFilter(status)} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                <button 
+                    key={status}
+                    onClick={() => setStatusFilter(status)} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
                     statusFilter === status
                     ? 'bg-white dark:bg-slate-700 text-blue-600 shadow-md'
                     : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'

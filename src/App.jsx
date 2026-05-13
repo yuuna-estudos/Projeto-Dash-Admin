@@ -66,7 +66,7 @@ function App() {
 
           <main className="flex-1 overflow-y-auto bg-transparent -mt-16 pt-16">
             <div className="p-6 space-y-6">
-              {currentPage === "dashboard" && <Dashboard searchTerm={debouncedSearchTerm} />}
+              {currentPage === "dashboard" && <Dashboard />}
             </div>
           </main>
         </div>
