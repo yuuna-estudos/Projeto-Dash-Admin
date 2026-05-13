@@ -119,7 +119,7 @@ useEffect(() => {
                                     
                                     <td className='hidden sm:table-cell p-4 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap'>{order.date}</td>
                                     
-                                    <td className='p-4 text-right'>
+                                    <td className='p-4 text-right hidden md:table-cell'>
                                         <MoreHorizontal className='w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600' />
                                     </td>
                                 </tr>

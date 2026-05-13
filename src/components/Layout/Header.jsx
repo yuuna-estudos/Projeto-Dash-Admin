@@ -73,9 +73,9 @@ function Header({ sideBarCollapsed, onToggleSidebar, isDarkMode, toggleTheme, se
         {isSearching && <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />}
       </div>
 
-      <button className='absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'>
+      {/*<button className='absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'>
         <Filter className='w-4 h-4' />
-      </button>
+      </button>*/}
 
       {/* DROPDOWN */}
       {showDropdown && (debouncedGlobalTerm.length > 1) && (
